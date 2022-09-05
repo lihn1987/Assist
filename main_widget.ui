@@ -19,10 +19,10 @@
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>350</y>
-     <width>211</width>
-     <height>221</height>
+     <x>100</x>
+     <y>290</y>
+     <width>391</width>
+     <height>231</height>
     </rect>
    </property>
    <property name="widgetResizable">
@@ -33,8 +33,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>209</width>
-      <height>219</height>
+      <width>389</width>
+      <height>229</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -43,9 +43,46 @@
        <property name="acceptDrops">
         <bool>true</bool>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
+       <layout class="QGridLayout" name="grid_layout">
+        <item row="0" column="0">
          <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>100</horstretch>
+            <verstretch>100</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="sizeIncrement">
+           <size>
+            <width>100</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>100</width>
+            <height>100</height>
+           </size>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -78,20 +115,97 @@
       <height>78</height>
      </rect>
     </property>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="btn_test1">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>120</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>test1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_test2">
+   <property name="geometry">
+    <rect>
+     <x>678</x>
+     <y>160</y>
+     <width>64</width>
+     <height>64</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>90</y>
+     <width>160</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>250</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>
