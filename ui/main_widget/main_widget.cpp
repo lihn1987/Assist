@@ -48,7 +48,7 @@ void MainWidget::OnTrayIconActivated(QSystemTrayIcon::ActivationReason reson){
         break;
     }
     case QSystemTrayIcon::MiddleClick:{
-        qDebug()<<QString::fromWCharArray(L"mid click");
+        qDebug()<<QString::fromWCharArray(L"mid click ");
         break;
     }
     default:
