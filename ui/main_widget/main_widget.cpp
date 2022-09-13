@@ -70,6 +70,6 @@ void MainWidget::on_btn_test2_clicked(){
     QFileInfo file_info("C:\\Users\\Administrator\\Desktop\\guo\\2022-09-03.txt");
     QFileIconProvider seekIcon;
     QIcon icon = seekIcon.icon(file_info);
-    ui->btn_test2->setIcon(icon);
+//    ui->btn_test2->setIcon(icon);
 }
 
