@@ -32,5 +32,13 @@ void Login::on_btn_setting_clicked(){
     account_ptr = std::shared_ptr<Account>(new Account("abc", "def"));
     GetConfigInstance()->InsertAccount(account_ptr);
     GetConfigInstance()->Save();
+//    GetConfigInstance()->Load();
+    int aaa = 0;
+}
+
+
+void Login::on_btn_create_clicked()
+{
+    GetConfigInstance()->Load();
 }
 

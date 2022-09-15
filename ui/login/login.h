@@ -18,6 +18,8 @@ public:
 private slots:
     void on_btn_setting_clicked();
 
+    void on_btn_create_clicked();
+
 private:
     Ui::Login *ui;
 };

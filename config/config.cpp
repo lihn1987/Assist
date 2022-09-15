@@ -15,18 +15,28 @@ std::shared_ptr<Config> GetConfigInstance(){
     return config_instance;
 }
 Config::Config(){
-    Load();
+//    Load();
 }
 
 bool Config::Load(){
-    std::ifstream ifs;
-    ifs.open("./config.json", std::ios_base::in);
-    if (ifs.is_open()) {
+    try {
+        std::ifstream ifs;
+        ifs.open("./config.json", std::ios_base::in);
         std::stringstream stm;
         stm<<ifs.rdbuf();
         std::string config_str = stm.str();
-        printf("load:%s", config_str.c_str());
-        fflush( stdout);
+        boost::json::object obj_all = boost::json::parse(config_str).as_object();
+        version = obj_all.at("version").as_int64();
+
+        for (auto item: obj_all.at("accounts").as_array()){
+            auto account_item = std::shared_ptr<Account>(new Account());
+            account_item->FromJsonObj(item.as_object());
+            accounts_list.push_back(account_item);
+        }
+        return true;
+    } catch(...){
+        printf("config load faild");
+        return false;
     }
 }
 
@@ -115,6 +125,20 @@ boost::json::object Account::ToJsonObj(){
     obj["name"] = name;
     obj["pri_key"] = pri_key_encrypted;
     return obj;
+}
+
+bool Account::FromJsonObj(const boost::json::object &obj){
+    auto iter = obj.find("name");
+    if (iter == obj.end()) {
+        return false;
+    }
+    name = iter->value().as_string();
+
+    iter = obj.find("pri_key");
+    if (iter == obj.end()) {
+        return false;
+    }
+    pri_key_encrypted = iter->value().as_string();
 }
 
 

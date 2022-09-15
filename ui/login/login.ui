@@ -182,7 +182,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="btn_create">
               <property name="text">
                <string>create Account</string>
               </property>

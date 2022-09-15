@@ -16,7 +16,7 @@ public:
     std::shared_ptr<Account> GetAccountByIndex(uint32_t index);
     std::shared_ptr<Account> RemoveAccountByIndex(uint32_t index);
 private:
-    uint32_t version = 0;
+    int64_t version = 1;
     std::vector<std::shared_ptr<Account>> accounts_list;
 };
 
@@ -31,6 +31,7 @@ public:
     std::string GetPriKey();
     bool SetPriKey(const std::string& pri_key);
     boost::json::object ToJsonObj();
+    bool FromJsonObj(const boost::json::object& obj);
 private:
     std::string name;
     std::string pri_key_encrypted;
