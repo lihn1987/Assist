@@ -2,10 +2,12 @@
 
 #include <QApplication>
 #include <QFile>
+#include <stdio.h>
 int main(int argc, char *argv[])
 {
+    // printf immediately
+    setbuf(stdout, NULL);
     QApplication a(argc, argv);
     MainWidget w;
-//    w.show();
     return a.exec();
 }

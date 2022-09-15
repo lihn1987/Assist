@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    config/config.cpp \
     crypto_tools/key_tools.cpp \
     crypto_tools/secp256k1/bench_ecdh.c \
     crypto_tools/secp256k1/secp256k1.c \
@@ -18,6 +19,7 @@ SOURCES += \
     ui/login/login.cpp
 
 HEADERS += \
+    config/config.h \
     crypto_tools/key_tools.h \
     crypto_tools/secp256k1/basic-config.h \
     crypto_tools/secp256k1/bench.h \
@@ -74,6 +76,9 @@ FORMS += \
     ui/main_widget/main_widget.ui \
     ui/login/login.ui
 
+
+INCLUDEPATH += D:/code/boost/boost_1_80_0
+LIBS += -LD:/code/boost/boost_1_80_0/stage/lib -lboost_json-mgw11-mt-d-x64-1_80
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
