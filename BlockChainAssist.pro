@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     config/config.cpp \
+    crypto_tools/aes/aes.cpp \
+    crypto_tools/aes/ctaes.c \
     crypto_tools/key_tools.cpp \
     crypto_tools/secp256k1/bench_ecdh.c \
     crypto_tools/secp256k1/secp256k1.c \
@@ -20,6 +22,8 @@ SOURCES += \
 
 HEADERS += \
     config/config.h \
+    crypto_tools/aes/aes.h \
+    crypto_tools/aes/ctaes.h \
     crypto_tools/key_tools.h \
     crypto_tools/secp256k1/basic-config.h \
     crypto_tools/secp256k1/bench.h \
@@ -78,7 +82,7 @@ FORMS += \
 
 
 INCLUDEPATH += D:/code/boost/boost_1_80_0
-LIBS += -LD:/code/boost/boost_1_80_0/stage/lib -lboost_json-mgw11-mt-d-x64-1_80
+LIBS += -LD:/code/boost/boost_1_80_0/stage/lib -lboost_json-mgw8-mt-d-x64-1_80
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

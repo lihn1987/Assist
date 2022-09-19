@@ -34,9 +34,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QStackedWidget" name="stackedWidget">
+       <widget class="QStackedWidget" name="sk_login">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -70,13 +70,13 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
-               <widget class="QLineEdit" name="lineEdit_3"/>
+               <widget class="QLineEdit" name="edt_create_username"/>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_5"/>
+               <widget class="QLineEdit" name="edt_create_passwd"/>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_2"/>
+               <widget class="QLineEdit" name="edt_create_repeat_passwd"/>
               </item>
              </layout>
             </item>
@@ -85,7 +85,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="btn_create_create">
               <property name="text">
                <string>create</string>
               </property>
@@ -107,7 +107,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_5">
+               <widget class="QPushButton" name="btn_create_cancel">
                 <property name="text">
                  <string>cancel</string>
                 </property>
@@ -156,7 +156,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QComboBox" name="comboBox">
+               <widget class="QComboBox" name="cb_login_username">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>

@@ -1,4 +1,4 @@
-#ifndef LOGIN_H
+﻿#ifndef LOGIN_H
 #define LOGIN_H
 
 #include <QWidget>
@@ -14,11 +14,15 @@ class Login : public QWidget
 public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
-
+private:
+    void InitUi();
 private slots:
     void on_btn_setting_clicked();
-
     void on_btn_create_clicked();
+
+    void on_btn_create_cancel_clicked();
+
+    void on_btn_create_create_clicked();
 
 private:
     Ui::Login *ui;

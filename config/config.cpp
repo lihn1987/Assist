@@ -1,9 +1,10 @@
-#include "config.h"
+﻿#include "config.h"
 #include <mutex>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
+#include "crypto_tools/string_tools.h"
 std::shared_ptr<Config> static config_instance = nullptr;
 
 std::shared_ptr<Config> GetConfigInstance(){
@@ -15,7 +16,7 @@ std::shared_ptr<Config> GetConfigInstance(){
     return config_instance;
 }
 Config::Config(){
-//    Load();
+    Load();
 }
 
 bool Config::Load(){
@@ -35,6 +36,7 @@ bool Config::Load(){
         }
         return true;
     } catch(...){
+        Save();
         printf("config load faild");
         return false;
     }
@@ -54,14 +56,18 @@ bool Config::Save(){
     ofs<<json_obj;
 }
 
+std::vector<std::shared_ptr<Account> > Config::GetAccountsList(){
+    return accounts_list;
+}
+
 bool Config::InsertAccount(std::shared_ptr<Account> account){
     for (auto item: accounts_list) {
         if (item->GetName() == account->GetName()) {
             return false;
         }
     }
-    accounts_list.push_back(account);
-
+    accounts_list.insert(accounts_list.begin(), account);
+    return true;
 }
 
 std::shared_ptr<Account> Config::GetAccountByIndex(uint32_t index){
@@ -89,7 +95,7 @@ std::shared_ptr<Account> Config::RemoveAccountByIndex(uint32_t index){
     return nullptr;
 }
 
-Account::Account(const std::string &name, const std::string &pri_encrypted): name(name), pri_key_encrypted(pri_encrypted){
+Account::Account(const std::string &name, const std::string& iv_key, const std::string &pri_encrypted): name(name), iv_key(iv_key), pri_key_encrypted(pri_encrypted){
 
 }
 
@@ -99,6 +105,15 @@ std::string Account::GetName(){
 
 bool Account::SetName(const std::string &name){
     this->name = name;
+    return true;
+}
+
+std::string Account::GetIVKey(){
+    return iv_key;
+}
+
+bool Account::SetIVKey(const std::string &key){
+    iv_key = key;
     return true;
 }
 
@@ -123,7 +138,8 @@ bool Account::SetPriKey(const std::string &pri_key){
 boost::json::object Account::ToJsonObj(){
     boost::json::object obj;
     obj["name"] = name;
-    obj["pri_key"] = pri_key_encrypted;
+    obj["iv_key"] = Byte2HexAsc(iv_key);
+    obj["pri_key_encrypted"] = Byte2HexAsc(pri_key_encrypted);
     return obj;
 }
 
@@ -134,11 +150,17 @@ bool Account::FromJsonObj(const boost::json::object &obj){
     }
     name = iter->value().as_string();
 
-    iter = obj.find("pri_key");
+    iter = obj.find("iv_key");
     if (iter == obj.end()) {
         return false;
     }
-    pri_key_encrypted = iter->value().as_string();
+    iv_key = HexAsc2ByteString(iter->value().as_string().c_str());
+
+    iter = obj.find("pri_key_encrypted");
+    if (iter == obj.end()) {
+        return false;
+    }
+    pri_key_encrypted = HexAsc2ByteString(iter->value().as_string().c_str());
 }
 
 
