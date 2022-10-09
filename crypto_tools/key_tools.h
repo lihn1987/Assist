@@ -14,4 +14,6 @@ std::string GetSignByPrivateKey(const uint8_t* buf, size_t length, const std::st
 std::string CreateAesIVKey();
 bool AesEncode(const std::string& key, const std::string& iv, const std::string& in, std::string& out);
 bool AesDecode(const std::string& key, const std::string& iv, const std::string& in, std::string& out);
+
+bool SignIsValidate(const uint8_t* buf, size_t length, const std::string& pub_key, const std::string& sign);
 #endif // KEYTOOL_H

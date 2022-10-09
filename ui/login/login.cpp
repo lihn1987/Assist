@@ -78,3 +78,16 @@ void Login::on_btn_create_create_clicked(){
     }
 }
 
+
+
+void Login::on_btn_login_clicked(){
+    auto account = GetConfigInstance()->GetAccountByName(ui->cb_login_username->currentText().toUtf8().data());
+    std::string pri_key;
+    bool res = AesDecode(ui->edt_login_passwd->text().toStdString(), account->GetIVKey(), account->GetPriKeyEncrypted(), pri_key);
+    if (res == false) {
+        QMessageBox::information(this, "warning!", "password is error!", QMessageBox::Ok);
+        return;
+    }
+
+}
+

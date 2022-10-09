@@ -95,6 +95,15 @@ std::shared_ptr<Account> Config::RemoveAccountByIndex(uint32_t index){
     return nullptr;
 }
 
+std::shared_ptr<Account> Config::GetAccountByName(const std::string &name){
+    for(auto item: accounts_list) {
+        if (item->GetName() == name){
+            return item;
+        }
+    }
+    return nullptr;
+}
+
 Account::Account(const std::string &name, const std::string& iv_key, const std::string &pri_encrypted): name(name), iv_key(iv_key), pri_key_encrypted(pri_encrypted){
 
 }

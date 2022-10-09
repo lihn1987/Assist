@@ -36,7 +36,7 @@
       <item>
        <widget class="QStackedWidget" name="sk_login">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -166,14 +166,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit"/>
+               <widget class="QLineEdit" name="edt_login_passwd"/>
               </item>
              </layout>
             </item>
            </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="btn_login">
             <property name="text">
              <string>login</string>
             </property>

@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
 CONFIG += c++17
 
@@ -9,21 +9,37 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    asio_manager/asio_manager.cpp \
+    net_lib/chat_client.cpp \
+    net_lib/chat_server.cpp \
+    net_lib/net_message.cpp \
+    net_lib/socket_item.cpp \
     config/config.cpp \
     crypto_tools/aes/aes.cpp \
     crypto_tools/aes/ctaes.c \
+    crypto_tools/blake2/blake2b.cc \
     crypto_tools/key_tools.cpp \
     crypto_tools/secp256k1/bench_ecdh.c \
     crypto_tools/secp256k1/secp256k1.c \
+    log/log.cpp \
     main.cpp \
     ui/chat/chat.cpp \
     ui/main_widget/main_widget.cpp \
     ui/login/login.cpp
 
 HEADERS += \
+    asio_manager/asio_manager.h \
+    net_lib/chat_client.h \
+    net_lib/chat_server.h \
+    net_lib/net_message.h \
+    net_lib/socket_item.h \
     config/config.h \
     crypto_tools/aes/aes.h \
     crypto_tools/aes/ctaes.h \
+    crypto_tools/blake2/blake2-impl.h \
+    crypto_tools/blake2/blake2.h \
+    crypto_tools/blake2/blamka-round-opt.h \
+    crypto_tools/blake2/blamka-round-ref.h \
     crypto_tools/key_tools.h \
     crypto_tools/secp256k1/basic-config.h \
     crypto_tools/secp256k1/bench.h \
@@ -71,6 +87,7 @@ HEADERS += \
     crypto_tools/secp256k1/testrand_impl.h \
     crypto_tools/secp256k1/util.h \
     crypto_tools/string_tools.h \
+    log/log.h \
     ui/chat/chat.h \
     ui/main_widget/main_widget.h \
     ui/login/login.h
@@ -82,7 +99,11 @@ FORMS += \
 
 
 INCLUDEPATH += D:/code/boost/boost_1_80_0
-LIBS += -LD:/code/boost/boost_1_80_0/stage/lib -lboost_json-mgw8-mt-d-x64-1_80
+LIBS += -LD:/code/boost/boost_1_80_0/stage/lib \
+        -lboost_json-mgw11-mt-x64-1_80 \
+        -lboost_thread-mgw11-mt-x64-1_80 \
+        -lboost_log-mgw11-mt-x64-1_80 \
+        -lws2_32 -lwsock32
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

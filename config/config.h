@@ -16,6 +16,7 @@ public:
     bool InsertAccount(std::shared_ptr<Account> account);
     std::shared_ptr<Account> GetAccountByIndex(uint32_t index);
     std::shared_ptr<Account> RemoveAccountByIndex(uint32_t index);
+    std::shared_ptr<Account> GetAccountByName(const std::string& name);
 private:
     int64_t version = 1;
     std::vector<std::shared_ptr<Account>> accounts_list;
@@ -27,12 +28,16 @@ public:
 public:
     std::string GetName();
     bool SetName(const std::string& name);
+
     std::string GetIVKey();
     bool SetIVKey(const std::string& key);
+
     std::string GetPriKeyEncrypted();
     bool SetPriKeyEncrypted(const std::string& key_encrypted);
+
     std::string GetPriKey();
     bool SetPriKey(const std::string& pri_key);
+
     boost::json::object ToJsonObj();
     bool FromJsonObj(const boost::json::object& obj);
 private:
