@@ -5,6 +5,7 @@
 #include <boost/format.hpp>
 #include <boost/log/utility/setup/console.hpp>
 #include <iostream>
+#include <mutex>
 std::shared_ptr<ChatLog> ChatLog::impl_ = nullptr;
 
 std::shared_ptr<ChatLog> ChatLog::GetInstance(){
@@ -33,6 +34,8 @@ void ChatLog::LogFatal(const std::string &log){
 }
 
 void ChatLog::Log(const std::string &log, boost::log::trivial::severity_level log_level){
+    // static std::mutex mutex;
+    // std::lock_guard<std::mutex> lk(mutex);
     std::string str_level;
     std::string str_time;
     str_time = boost::posix_time::to_iso_string(boost::posix_time::microsec_clock::local_time());

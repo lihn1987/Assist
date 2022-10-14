@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string>
 #include <assert.h>
+#include <string.h>
 #include <random>
 #include "secp256k1/secp256k1.h"
 #include "secp256k1/secp256k1_ecdh.h"
@@ -109,7 +110,9 @@ bool SignIsValidate(const uint8_t* buf, size_t length, const std::string& pub_ke
     assert(ret);
 
     secp256k1_pubkey pubkey;
-    secp256k1_ec_pubkey_parse(ctx, &pubkey, (uint8_t*)pub_key.data(), PUB_KEY_SIZE);
+    if (!secp256k1_ec_pubkey_parse(ctx, &pubkey, (uint8_t*)pub_key.data(), PUB_KEY_SIZE)) {
+        return false;
+    }
     //memcpy(&pubkey, pub_key.data()+1, PUB_KEY_SIZE-1);
     secp256k1_ecdsa_signature sig;
     memcpy(&sig, sign.data(), SIGN_SIZE);
@@ -148,7 +151,7 @@ std::string GetSignByPrivateKey(const uint8_t* buf, size_t length, const std::st
         ret = secp256k1_ecdsa_sign(ctx, &sig, buf, (uint8_t*)pri_key.data(), secp256k1_nonce_function_rfc6979, extra_entropy);
     }
     assert(ret);*/
-    memcpy(rtn.data(), &sig, SIGN_SIZE);
+    memcpy((void*)rtn.data(), &sig, SIGN_SIZE);
 
     //删除上下文
     if (ctx) {

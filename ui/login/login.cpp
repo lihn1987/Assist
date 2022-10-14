@@ -2,11 +2,15 @@
 #include "ui_login.h"
 #include <memory>
 #include <QMessageBox>
+#include <functional>
 
 #include "crypto_tools/key_tools.h"
 #include "crypto_tools/string_tools.h"
 #include "config/config.h"
-
+#include "net_lib/chat_client.h"
+#include "client/app_engine.h"
+#include "ui/board/board.h"
+#include "ui/chat/chat.h"
 Login::Login(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Login)
@@ -64,11 +68,12 @@ void Login::on_btn_create_create_clicked(){
     std::string repeat_passwd = ui->edt_create_repeat_passwd->text().toUtf8().data();
     if (user_name != "" && passwd != "" and repeat_passwd == passwd) {
         std::string pri_key = CreatePrivateKey();
+        std::string pub_key = GetPublicKeyByPrivateKey(pri_key);
         std::string iv_key = CreateAesIVKey();
         std::string pri_key_encrypto;
         assert(AesEncode(passwd, iv_key, pri_key, pri_key_encrypto));
         GetConfigInstance()->InsertAccount(
-            std::shared_ptr<Account>(new Account(user_name,iv_key,pri_key_encrypto))
+            std::shared_ptr<Account>(new Account(user_name,iv_key,pri_key_encrypto, pub_key))
         );
         GetConfigInstance()->Save();
         QMessageBox::information(this, "info", "Create user success!", QMessageBox::Ok);
@@ -84,10 +89,22 @@ void Login::on_btn_login_clicked(){
     auto account = GetConfigInstance()->GetAccountByName(ui->cb_login_username->currentText().toUtf8().data());
     std::string pri_key;
     bool res = AesDecode(ui->edt_login_passwd->text().toStdString(), account->GetIVKey(), account->GetPriKeyEncrypted(), pri_key);
+    account->SetPriKey(pri_key);
     if (res == false) {
         QMessageBox::information(this, "warning!", "password is error!", QMessageBox::Ok);
         return;
     }
+    GetAppEngine()->SetCurrentAccount(account);
+    GetAppEngine()->GetChatClient()->Connect("127.0.0.1", 8801);
+//    GetAppEngine()->GetChatClient()->GetSocketItem()->AddOnReadCallback(std::bind(&Board::OnRecieveMsg, GetAppEngine()->GetUIBoard(), std::placeholders::_1, std::placeholders::_2));
+    GetAppEngine()->GetChatClient()->SetOnConnectBack(std::bind(&Chat::OnConnect, GetAppEngine()->GetUIChat()));
+    GetAppEngine()->GetChatClient()->SetOnReadCallBack(std::bind(&Chat::OnRecieveMsg, GetAppEngine()->GetUIChat(), std::placeholders::_1));
+    this->hide();
+
+    GetAppEngine()->GetUIBoard()->show();
+    GetAppEngine()->GetUIBoard()->Flush();
+
+    GetAppEngine()->GetUIChat()->show();
 
 }
 

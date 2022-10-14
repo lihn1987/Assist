@@ -4,22 +4,30 @@
 #include <QWidget>
 #include <QSystemTrayIcon>
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWidget; }
+namespace Ui { class Board; }
 QT_END_NAMESPACE
 
-class MainWidget : public QWidget{
+class SocketItem;
+class NetMessage;
+
+class Board : public QWidget{
     Q_OBJECT
 
 public:
-    MainWidget(QWidget *parent = nullptr);
-    ~MainWidget();
+    Board(QWidget *parent = nullptr);
+    ~Board();
+public:
+    void Flush();
 private:
     // 做一些初始化工作
     void Init();
     // 初始化任务栏图标
     void InitIcon();
+public:
+    void OnConnect();
+    void OnRecieveMsg(std::shared_ptr<NetMessage> msg);
 private:
-    Ui::MainWidget *ui;
+    Ui::Board *ui;
     QSystemTrayIcon* m_tray_icon;
 private slots:
     void OnTrayIconActivated(QSystemTrayIcon::ActivationReason reson);

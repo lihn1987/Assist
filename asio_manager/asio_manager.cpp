@@ -1,15 +1,16 @@
 ﻿#include "asio_manager.h"
 #include <thread>
 #include <functional>
-#include <boost/bind.hpp>
-#include "log/log.h"
-std::shared_ptr<AsioManager> AsioManager::impl_ = nullptr;
+#include <boost/bind/bind.hpp>
+#include <boost/format.hpp>
+#include "../log/log.h"
+std::shared_ptr<AsioManager> AsioManager::impl = nullptr;
 
 std::shared_ptr<AsioManager> AsioManager::GetInstance(){
-    if(!impl_){
-        impl_ = std::shared_ptr<AsioManager>(new AsioManager());
+    if(!impl){
+        impl = std::shared_ptr<AsioManager>(new AsioManager());
     }
-    return impl_;
+    return impl;
 }
 
 AsioManager::~AsioManager(){
@@ -19,19 +20,20 @@ AsioManager::~AsioManager(){
 
 void AsioManager::StartThreads(){
     StopThreads();
-    ios_.reset();
-    ios_work_ = std::make_shared<boost::asio::io_service::work>(ios_);
-    for(uint32_t idx = 0; idx < GetThreadCount(); idx++){
-        thread_list_.push_back(std::thread(std::bind(&AsioManager::ThreadFunc, this)));
+    ios.reset();
+    ios_work = std::make_shared<boost::asio::io_service::work>(ios);
+    GetChatLog()->LogDebug((boost::format("内核总数:%d")%GetCoreCount()).str());
+    for(uint32_t idx = 0; idx < GetCoreCount(); idx++){
+        thread_list.push_back(std::thread(std::bind(&AsioManager::ThreadFunc, this)));
     }
 }
 
 void AsioManager::StopThreads(){
-    ios_.stop();
-    for(uint32_t i = 0; i < thread_list_.size(); i++){
+    ios.stop();
+    for(uint32_t i = 0; i < thread_list.size(); i++){
         try{
-            if(thread_list_[i].joinable())
-                thread_list_[i].join();
+            if(thread_list[i].joinable())
+                thread_list[i].join();
         }catch(std::system_error& ec){
             GetChatLog()->LogTrace(ec.what());
         }catch(...){
@@ -39,24 +41,29 @@ void AsioManager::StopThreads(){
         }
         GetChatLog()->LogTrace("停止线程!");
     }
-    thread_list_.clear();
+    thread_list.clear();
 }
 
 boost::asio::io_service &AsioManager::GetIoService(){
-    return ios_;
+    return ios;
 }
 
-AsioManager::AsioManager():thread_run_(true){
+uint32_t AsioManager::GetThreadCount() {
+    return thread_list.size();
+}
+
+AsioManager::AsioManager():thread_run(true){
     //StartThreads();
 }
 
 void AsioManager::ThreadFunc(){
     GetChatLog()->LogTrace("ASIO 异步IO线程开始运行!");
     boost::system::error_code ec;
-    ios_.run(ec);
-    GetChatLog()->LogTrace("ASIO 异步IO线程结束运行!");
+    ios.run(ec);
+    // GetChatLog()->LogTrace("ASIO 异步IO线程结束运行!");
 }
 
-uint32_t AsioManager::GetThreadCount(){
+uint32_t AsioManager::GetCoreCount(){
+     return 1;
     return std::thread::hardware_concurrency();
 }

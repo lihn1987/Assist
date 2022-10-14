@@ -10,9 +10,11 @@ CONFIG += c++17
 
 SOURCES += \
     asio_manager/asio_manager.cpp \
+    client/app_engine.cpp \
     net_lib/chat_client.cpp \
     net_lib/chat_server.cpp \
     net_lib/net_message.cpp \
+    net_lib/session_manager.cpp \
     net_lib/socket_item.cpp \
     config/config.cpp \
     crypto_tools/aes/aes.cpp \
@@ -22,16 +24,18 @@ SOURCES += \
     crypto_tools/secp256k1/bench_ecdh.c \
     crypto_tools/secp256k1/secp256k1.c \
     log/log.cpp \
-    main.cpp \
+    client/main.cpp \
     ui/chat/chat.cpp \
-    ui/main_widget/main_widget.cpp \
-    ui/login/login.cpp
+    ui/login/login.cpp \
+    ui/board/board.cpp
 
 HEADERS += \
     asio_manager/asio_manager.h \
+    client/app_engine.h \
     net_lib/chat_client.h \
     net_lib/chat_server.h \
     net_lib/net_message.h \
+    net_lib/session_manager.h \
     net_lib/socket_item.h \
     config/config.h \
     crypto_tools/aes/aes.h \
@@ -89,20 +93,20 @@ HEADERS += \
     crypto_tools/string_tools.h \
     log/log.h \
     ui/chat/chat.h \
-    ui/main_widget/main_widget.h \
-    ui/login/login.h
+    ui/login/login.h \
+    ui/board/board.h
 
 FORMS += \
     ui/chat/chat.ui \
-    ui/main_widget/main_widget.ui \
-    ui/login/login.ui
+    ui/login/login.ui \
+    ui/board/board.ui
 
 
 INCLUDEPATH += D:/code/boost/boost_1_80_0
 LIBS += -LD:/code/boost/boost_1_80_0/stage/lib \
-        -lboost_json-mgw11-mt-x64-1_80 \
-        -lboost_thread-mgw11-mt-x64-1_80 \
-        -lboost_log-mgw11-mt-x64-1_80 \
+        -lboost_json-mgw8-mt-x64-1_80 \
+        -lboost_thread-mgw8-mt-x64-1_80 \
+        -lboost_log-mgw8-mt-x64-1_80 \
         -lws2_32 -lwsock32
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

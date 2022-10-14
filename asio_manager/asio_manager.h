@@ -13,17 +13,18 @@ public:
     void StartThreads();
     void StopThreads();
     boost::asio::io_service& GetIoService();
+    uint32_t GetThreadCount();
 private:
     AsioManager();
 private:
     void ThreadFunc();
-    uint32_t GetThreadCount();
+    uint32_t GetCoreCount();
 private:
-    static std::shared_ptr<AsioManager> impl_;
-    boost::asio::io_service ios_;
-    std::shared_ptr<boost::asio::io_service::work> ios_work_;
-    std::vector<std::thread> thread_list_;
-    bool thread_run_;
+    static std::shared_ptr<AsioManager> impl;
+    boost::asio::io_service ios;
+    std::shared_ptr<boost::asio::io_service::work> ios_work;
+    std::vector<std::thread> thread_list;
+    bool thread_run;
 };
 #define GetAsioManager() AsioManager::GetInstance()
 #endif // ASIO_MANAGER_H

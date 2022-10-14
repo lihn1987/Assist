@@ -24,7 +24,7 @@ private:
 
 class Account {
 public:
-    Account(const std::string& name = "", const std::string& iv_key = "", const std::string& pri_encrypted = "");
+    Account(const std::string& name = "", const std::string& iv_key = "", const std::string& pri_encrypted = "", const std::string& pubkey = "");
 public:
     std::string GetName();
     bool SetName(const std::string& name);
@@ -38,6 +38,9 @@ public:
     std::string GetPriKey();
     bool SetPriKey(const std::string& pri_key);
 
+    std::string GetPubKey();
+    bool SetPubKey(const std::string& pub_key);
+
     boost::json::object ToJsonObj();
     bool FromJsonObj(const boost::json::object& obj);
 private:
@@ -45,6 +48,7 @@ private:
     std::string iv_key;
     std::string pri_key_encrypted;
     std::string pri_key;
+    std::string pub_key;
 };
 
 std::shared_ptr<Config> GetConfigInstance();

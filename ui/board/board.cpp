@@ -1,40 +1,54 @@
-﻿#include "main_widget.h"
-#include "ui_main_widget.h"
+﻿#include "board.h"
+#include "ui_board.h"
 #include <QDebug>
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QFileInfo>
 #include <QFileIconProvider>
-#include "ui/login/login.h"
+#include <functional>
 
-MainWidget::MainWidget(QWidget *parent)
+#include "../../client/app_engine.h"
+#include "../../config/config.h"
+#include "../../crypto_tools/string_tools.h"
+#include "../../net_lib/chat_client.h"
+Board::Board(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::MainWidget){
+    , ui(new Ui::Board){
     ui->setupUi(this);
     Init();
-    QWidget* d = new Login();
 
-    d->show();
-    this->hide();
 }
 
-MainWidget::~MainWidget(){
+Board::~Board(){
     m_tray_icon->hide();
     delete ui;
 }
 
-void MainWidget::Init(){
+void Board::Init(){
     InitIcon();
 }
 
-void MainWidget::InitIcon(){
+void Board::InitIcon(){
     m_tray_icon = new QSystemTrayIcon(this);
     m_tray_icon->setIcon(QIcon(":/base/res/tray_icon.png"));
     m_tray_icon->show();
     connect(m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(OnTrayIconActivated(QSystemTrayIcon::ActivationReason)));
 }
 
-void MainWidget::OnTrayIconActivated(QSystemTrayIcon::ActivationReason reson){
+void Board::OnConnect(){
+
+}
+
+void Board::OnRecieveMsg(std::shared_ptr<NetMessage> msg){
+    int x;
+    x = 0;
+}
+
+void Board::Flush(){
+    ui->lbl_pubkey->setText(QString::fromStdString(Byte2HexAsc(GetAppEngine()->GetCurrentAccount()->GetPubKey())));
+}
+
+void Board::OnTrayIconActivated(QSystemTrayIcon::ActivationReason reson){
     switch(reson) {
     case QSystemTrayIcon::DoubleClick: {
         qDebug()<<QString::fromWCharArray(L"double click");
@@ -58,15 +72,15 @@ void MainWidget::OnTrayIconActivated(QSystemTrayIcon::ActivationReason reson){
 }
 
 
-void MainWidget::on_pushButton_clicked(){
+void Board::on_pushButton_clicked(){
     this->hide();
 }
 
-void MainWidget::on_btn_test1_clicked(){
+void Board::on_btn_test1_clicked(){
 
 }
 
-void MainWidget::on_btn_test2_clicked(){
+void Board::on_btn_test2_clicked(){
     QFileInfo file_info("C:\\Users\\Administrator\\Desktop\\guo\\2022-09-03.txt");
     QFileIconProvider seekIcon;
     QIcon icon = seekIcon.icon(file_info);

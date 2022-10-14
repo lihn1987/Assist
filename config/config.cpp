@@ -5,6 +5,8 @@
 #include <sstream>
 
 #include "crypto_tools/string_tools.h"
+#include "crypto_tools/key_tools.h"
+
 std::shared_ptr<Config> static config_instance = nullptr;
 
 std::shared_ptr<Config> GetConfigInstance(){
@@ -104,7 +106,8 @@ std::shared_ptr<Account> Config::GetAccountByName(const std::string &name){
     return nullptr;
 }
 
-Account::Account(const std::string &name, const std::string& iv_key, const std::string &pri_encrypted): name(name), iv_key(iv_key), pri_key_encrypted(pri_encrypted){
+Account::Account(const std::string &name, const std::string& iv_key, const std::string &pri_encrypted, const std::string& pub_key):
+    name(name), iv_key(iv_key), pri_key_encrypted(pri_encrypted), pub_key(pub_key){
 
 }
 
@@ -144,11 +147,21 @@ bool Account::SetPriKey(const std::string &pri_key){
     return true;
 }
 
+std::string Account::GetPubKey(){
+    return this->pub_key;
+}
+
+bool Account::SetPubKey(const std::string &pub_key){
+    this->pub_key = pub_key;
+    return true;
+}
+
 boost::json::object Account::ToJsonObj(){
     boost::json::object obj;
     obj["name"] = name;
     obj["iv_key"] = Byte2HexAsc(iv_key);
     obj["pri_key_encrypted"] = Byte2HexAsc(pri_key_encrypted);
+    obj["pub_key"] = Byte2HexAsc(pub_key);
     return obj;
 }
 
@@ -170,6 +183,12 @@ bool Account::FromJsonObj(const boost::json::object &obj){
         return false;
     }
     pri_key_encrypted = HexAsc2ByteString(iter->value().as_string().c_str());
+
+    iter = obj.find("pub_key");
+    if (iter == obj.end()) {
+        return false;
+    }
+    pub_key = HexAsc2ByteString(iter->value().as_string().c_str());
 }
 
 
